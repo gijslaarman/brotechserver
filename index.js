@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 const hbs = require('express-handlebars')
 const MongoClient = require('mongodb').MongoClient
-const port = 3000
 require('dotenv').config()
+const port = process.env.PORT
 
 app.engine('hbs', hbs({ extname: 'hbs', defaultLayout: 'default', layoutsDir: `${__dirname}/views/layouts/` }))
 app.set('view engine', 'hbs')
