@@ -1,0 +1,9 @@
+<h1>Carousel</h1>
+
+{{#with noneFound}}
+    <h1>No images found</h1>
+{{/with}}
+
+{{#each images}}
+    <img src="{{src}}" alt="{{alt}}">
+{{/each}}
