@@ -4,43 +4,38 @@
     <h2>Er zijn geen foto's gevonden! Voeg ze snel toe hieronder!</h2>
     {{/with}}
 
-    <form action="carousel" method="GET">
-        <fieldset>
-            <legend>Selecteer welke afbeeldingen jij wilt zien in een slideshow.</legend>
-            {{#each images}}
-            <input type="checkbox" name="i" id="{{@index}}" value="{{@index}}">
-            <label for="{{@index}}">
-                <figure>
-                    <img src="{{src}}" alt="{{alt}}">
-                    <figcaption>
-                        {{caption}}
-                    </figcaption>
-                    <form action="/delete-image/{{filename}}" method="POST">
-                        <input type="submit" value="Verwijder">
-                    </form>
-                </figure>
-            </label>
-            {{/each}}
-            <input type="submit" value="Bekijk carousel">
+    <div class="images">
+        {{#each images}}
+        <figure>
+            <img src="{{src}}" alt="{{alt}}">
+            <figcaption>
+                {{caption}}
+            </figcaption>
 
-            <form enctype="multipart/form-data" action="/upload-image" method="POST">
-                <fieldset>
-                    <legend>Upload jouw afbeelding</legend>
-                    <label>
-                        Jouw afbeelding
-                        <input type="file" name="image">
-                    </label>
-                    <label>
-                        Wat staat er op de foto (alt text):
-                        <input type="text" name="alt">
-                    </label>
-                    <label>
-                        Caption voor de foto:
-                        <input type="text" name="caption">
-                    </label>
-                    <input type="submit" value="Versturen">
-                </fieldset>
+            <form action="/delete-image/{{filename}}" method="POST">
+                <input type="submit" value="Verwijder">
             </form>
+
+        </figure>
+        {{/each}}
+    </div>
+
+    <form enctype="multipart/form-data" action="/upload-image" method="POST">
+        <fieldset>
+            <legend>Upload jouw afbeelding</legend>
+            <label>
+                Jouw afbeelding
+                <input type="file" name="image">
+            </label>
+            <label>
+                Wat staat er op de foto (alt text):
+                <input type="text" name="alt">
+            </label>
+            <label>
+                Caption voor de foto:
+                <input type="text" name="caption">
+            </label>
+            <input type="submit" value="Versturen">
         </fieldset>
     </form>
 
