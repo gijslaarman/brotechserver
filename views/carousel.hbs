@@ -9,7 +9,7 @@
         <fieldset>
             <legend>Kies jouw foto's die je wilt showen. (En sla je selectie op)</legend>
             {{#each images}}
-            <input type="checkbox" name="saveSelection" id="{{@index}}" value="{{@index}}">
+            <input type="checkbox" {{#if checked}}checked{{/if}} name="saveSelection" id="{{@index}}" value="{{filename}}">
             <label for="{{@index}}">
                 <figure>
                     <img src="{{src}}" alt="{{alt}}">
@@ -23,5 +23,5 @@
         <input type="submit" value="Sla selectie op">
     </form>
 
-    <a href="carousel/showcase">Bekijk Slides</a>
+    <a class="button" href="/showcase">Bekijk Slides</a>
 </div> 

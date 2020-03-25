@@ -23,9 +23,9 @@
     <form enctype="multipart/form-data" action="/upload-image" method="POST">
         <fieldset>
             <legend>Upload jouw afbeelding</legend>
-            <label>
-                Jouw afbeelding
-                <input type="file" name="image">
+            <label type="file">
+                Upload Afbeelding
+                <input required accept="image/x-png,image/gif,image/jpeg" type="file" name="image">
             </label>
             <label>
                 Wat staat er op de foto (alt text):

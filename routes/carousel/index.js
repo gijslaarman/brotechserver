@@ -3,54 +3,37 @@ const router = express.Router({ mergeParams: true })
 const multer = require('multer')
 const upload = multer()
 const fs = require('fs')
-// const filterImages = (query, array) => {
-//     if (!query) {
-//         return false
-//     }
-
-//     if (typeof query.i === 'string') {
-//         return [array[query.i]]
-//     } else {
-//         let filteredArray = []
-//         query.i.forEach((no, index) => {
-//             let object = array[index]
-            
-            
-//             if (index > 0) {
-//                 // Does this image need a previous button?
-//                 object.previous = Number(index) - 1
-//             }
-            
-//             // console.log(index, (query.i.length - 1))
-            
-//             if (index < (query.i.length - 1)) {
-//                 // Does this image need a next button, if it's the end of the carousel it does not need a next button.
-//                 object.next = Number(index) + 1
-//             }
-
-//             filteredArray.push(object)
-//         })
-//         return filteredArray
-//     }
-// }
+const dataPath = 'saved-carousel.json'
 
 router.get('/', (req, res) => {
     db.collection('images').find({}).toArray()
     .then(imageArray => {
         const images = imageArray
+        console.log(imageArray)
         return res.render('carousel', { template: 'carousel', images })
      })
 })
 
 router.post('/save', upload.none(), (req, res) => {
-    // Make sure to always save it as an array.
-    if (typeof req.body.saveSelection === 'string') {
-        req.body.saveSelection = [req.body.saveSelection]
-    }
+    db.collection('images').find({}).forEach(image => {
+        if (req.body.saveSelection) { // Is there an array or string? If not skip and set everything to false -> Because the user turned all the images off.
 
-    // Write the saved setup to the server.
-    fs.writeFile('saved-carousel.json', JSON.stringify(req.body), 'utf8', () => {
-        console.log('Succesfully saved carousel.')
+            if (typeof req.body.saveSelection === 'string') { // We can't use the find function on a string, so if the answer is a string reform it into an array.
+                req.body.saveSelection = [req.body.saveSelection]
+            }
+
+            if (req.body.saveSelection.find(i => i === image.filename)) {
+                image.checked = true
+            } else {
+                image.checked = false
+            }
+
+        } else {
+            image.checked = false
+        }
+
+        console.log(image)
+        db.collection('images').save(image)
     })
 
     res.redirect('/carousel')

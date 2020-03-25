@@ -11,6 +11,7 @@ app.use(express.static('public'))
 
 app.use('/', require('./routes/home'))
 app.use('/carousel', require('./routes/carousel'))
+app.use('/showcase', require('./routes/showcase'))
 
 app.listen(port, (err) => {
     if (err) throw new Error(err)

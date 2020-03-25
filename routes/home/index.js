@@ -30,7 +30,8 @@ router.post('/upload-image', storeImage, (req, res) => {
         filename: req.file.filename,
         alt: req.body.alt,
         src: `/uploads/${req.file.filename}`,
-        caption: req.body.caption
+        caption: req.body.caption,
+        checked: false
     }).then(() => {
         console.log(`Someone inserted the image: ${req.file.filename}`)
         res.redirect('/')
@@ -49,7 +50,6 @@ router.post('/delete-image/:file', (req, res) => {
             })
 
             console.log(`Someone deleted the image: ${req.params.file}`)
-
             res.redirect('/')
         })
 })
