@@ -6,7 +6,7 @@
 
     <div class="images">
         {{#each images}}
-        <figure>
+        <figure class="item">
             <img src="{{src}}" alt="{{alt}}">
             <figcaption>
                 {{caption}}
@@ -20,25 +20,27 @@
         {{/each}}
     </div>
 
-    <form enctype="multipart/form-data" action="/upload-image" method="POST">
-        <fieldset>
-            <legend>Upload jouw afbeelding</legend>
-            <label type="file">
-                Upload Afbeelding
-                <input required accept="image/x-png,image/gif,image/jpeg" type="file" name="image">
-            </label>
-            <label>
-                Wat staat er op de foto (alt text):
-                <input type="text" name="alt">
-            </label>
-            <label>
-                Caption voor de foto:
-                <input type="text" name="caption">
-            </label>
-            <input type="submit" value="Versturen">
-        </fieldset>
-    </form>
-
-    <section data-upload-image-form>
-    </section>
+    <div class="upload-form">
+        <div js_hook_form_toggle class="background"></div>
+        <form enctype="multipart/form-data" action="/upload-image" method="POST">
+            <fieldset>
+                <legend>Upload jouw afbeelding</legend>
+                <label type="file">
+                    Upload Afbeelding
+                    <input required accept="image/x-png,image/gif,image/jpeg" type="file" name="image">
+                </label>
+                <label>
+                    Wat staat er op de foto (alt text):
+                    <input type="text" name="alt">
+                </label>
+                <label>
+                    Caption voor de foto:
+                    <input type="text" name="caption">
+                </label>
+                <input type="submit" value="Versturen">
+            </fieldset>
+        </form>
+    </div>
 </div>
+
+<script src="uploadForm.js"></script>

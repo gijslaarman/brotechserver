@@ -34,6 +34,10 @@ html {
     font-family: sans-serif;
 }
 
+html, body {
+    height: 100%;
+}
+
 h1 {
     font-size: 1.5em;
     margin: 0.75em 0;
@@ -69,8 +73,12 @@ nav li {
     font-family: sans-serif;
     font-size: 1.125em;
     font-weight: 700;
-    padding: 1em;
     color: inherit;
+}
+
+nav li a {
+    padding: 1em;
+    display: inline-block;
 }
 
 main {
@@ -82,15 +90,41 @@ main {
 
 .images {
     display: flex;
+    margin: 0 -1em;
     flex-wrap: wrap;
-    justify-content: space-between;
 }
 
-.images figure {
-    width: 30%;
-    background-color: cornsilk;
+.images .item {
+    width: 18em;
+    margin: 1em;
+    background-color: #FFF;
     position: relative;
     /* flex: 1 0 50%; */
+}
+
+.images .item.add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.images .item.add i {
+    font-size: 4em;
+    height: 3em;
+    width: 3em;
+    font-style: normal;
+    color: white;
+    padding: 1em;
+    background-color: blue;
+    border-radius: 50%;
+    box-shadow: 0 2px 14px #21212150;
+    cursor: pointer;
+    transition: all 200ms;
+}
+
+.images .item.add i:hover {
+    background-color: dodgerblue;
 }
 
 figure figcaption {
@@ -121,7 +155,6 @@ figure form input[type=submit]:hover {
 .images img {
     height: 15em;
     object-fit: cover;
-    background-color: whitesmoke;
 }
 
 .button {
@@ -165,6 +198,7 @@ input[type=file] {
     border: 2px solid whitesmoke;
     transition: background-color 200ms;
 }
+
 input[type=file]:valid {
     border: 2px solid #2e8b5770;
     background-color: #2e8b5740;
@@ -172,7 +206,49 @@ input[type=file]:valid {
 
 /* end */
 
-.container > form {
+input[type=submit] {
+    border: none;
+    display: block;
+    font-size: 1em;
+    background-color: blue;
+    color: white;
+    padding: 1em 2em;
+    margin: 0 auto;
+    margin-top: 1em;
+    cursor: pointer;
+    transition: all 200ms;
+}
+
+input[type=submit]:hover {
+    background-color: dodgerblue;
+}
+
+.upload-form {
+    display: none;
+}
+
+.upload-form.active {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.upload-form .background {
+    background-color: #21212150;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.upload-form > form {
+    z-index: 1;
+    cursor: default;
     padding: 1em;
     max-width: 40em;
     margin: 2em auto;
@@ -180,9 +256,11 @@ input[type=file]:valid {
     box-shadow: 0 4px 14px 0 #00000020;
 }
 
-legend {
-    font-size: 1.25em;
+.upload-form > form legend {
+    font-size: 1.125em;
     font-weight: 700;
+    padding: 0;
+    margin-bottom: 1em;
 }
 
 #index li:first-of-type {
@@ -195,24 +273,20 @@ legend {
     background-color: #f5f5f5;
 }
 
-.carousel label {
-    display: inline-block;
-    background-color: white;
-    width: 23%;
-    margin: 1%;
-    box-shadow: 0 4px 14px #21212110;
-}
-.carousel input[type=checkbox] {
+#carousel input[type=checkbox] {
     opacity: 0;
     visibility: hidden;
     width: 1px;
     height: 1px;
     position: absolute;
 }
-.carousel input[type=checkbox] + label {
+
+#carousel input[type=checkbox] + label figure {
+    border: 1px solid transparent;
     opacity: 0.6;
 }
-.carousel input[type=checkbox]:checked + label {
+
+#carousel input[type=checkbox]:checked + label figure {
     opacity: 1;
     border: 1px solid blue;
 }
@@ -221,7 +295,7 @@ legend {
     margin: 0;
     background-color: #111111;
     max-width: unset;
-    height: 100vh;
+    height: 100%;
     padding: 4em 0 0;
 }
 
@@ -232,22 +306,29 @@ legend {
 }
 
 .showcase {
-    display: flex;
     width: 100%;
     height: 100%;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.showcase .wrapper {
+    display: flex;
+    position: relative;
+    transform: translate(calc(var(--position) * -100vw),0);
+    transition: 500ms;
+    height: 100%;
 }
 
 .showcase figure {
     padding: 1em;
-    max-height: 90vh;
-    width: 100%;
+    max-height: 90%;
     scroll-snap-align: center;
     display: block;
     flex: 0 0 100%;
     display: flex;
     align-items: center;
+    position: relative;
     justify-content: center;
 }
 
@@ -257,14 +338,104 @@ legend {
     object-fit: contain;
 }
 
-@media (max-width: 40em) {
-    .images figure {
-        width: 48%;
+.dots {
+    position: fixed;
+    bottom: 2em;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.dot {
+    display: inline-block;
+    width: 1em;
+    opacity: 0.25;
+    height: 1em;
+    border-radius: 50%;
+    background-color: white;
+    transition: 200ms;
+}
+
+a.nav {
+    width: 2.5em;
+    height: 2.5em;
+    opacity: 0.5;
+    text-align: center;
+    border-radius: 25%;
+    position: absolute;
+    fill: white;
+    top: 50%;
+    transform: translate(0, -50%);
+    transition: 200ms;
+    z-index: 9;
+}
+
+a.nav:hover {
+    opacity: 1;
+}
+
+a.nav.previous {
+    left: 2em;
+}
+
+a.nav.next {
+    right: 2em;
+}
+
+a.nav:after {
+    position: absolute;
+    bottom: -2em;
+    left: 50%;
+    color: white;
+    transform: translate(-50%, 0);
+}
+
+a.nav.next::after {
+    content: "Volgende";
+}
+
+a.nav.previous::after {
+    content: "Vorige";
+}
+
+@media (max-width: 80em) {
+    main {
+        max-width: 60em;
     }
 }
 
-@media (max-width: 30em) {
-    .images figure {
-        width: 100%;
+@media (max-width: 60em) {
+    main {
+        max-width: 40em;
+    }
+
+    .showcase figure {
+        padding-bottom: 3em;
+    }
+
+    a.nav {
+        top: unset;
+        bottom: 2em;
     }
 }
+
+@media (max-width: 40em) {
+    .images {
+        justify-content: center;
+    }
+}
+
+/* @media (max-width: 52em) {
+    .images .item {
+        max-width: 50%;
+    }
+} */
+
+/* @media (max-width: 32em) {
+    .images {
+        justify-content: center;
+    }
+    .images .item {
+        max-width: 24em;
+    }
+} */
+

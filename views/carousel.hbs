@@ -4,24 +4,26 @@
     <h1>No images found</h1>
 {{/with}}
 
-<div class="carousel">
+<div class="">
     <form enctype="multipart/form-data" action="carousel/save" method="POST">
         <fieldset>
             <legend>Kies jouw foto's die je wilt showen. (En sla je selectie op)</legend>
+            <div class="images">
             {{#each images}}
-            <input type="checkbox" {{#if checked}}checked{{/if}} name="saveSelection" id="{{@index}}" value="{{filename}}">
-            <label for="{{@index}}">
-                <figure>
-                    <img src="{{src}}" alt="{{alt}}">
-                    <figcaption>
-                        {{caption}}
-                    </figcaption>
-                </figure>
-            </label>
+                <input type="checkbox" {{#if checked}}checked{{/if}} name="saveSelection" id="{{@index}}" value="{{filename}}">
+                <label class="item" for="{{@index}}">
+                    <figure>
+                        <img src="{{src}}" alt="{{alt}}">
+                        <figcaption>
+                            {{caption}}
+                        </figcaption>
+                    </figure>
+                </label>
             {{/each}}
+            </div>
         </fieldset>
         <input type="submit" value="Sla selectie op">
     </form>
 
-    <a class="button" href="/showcase">Bekijk Slides</a>
+    <a class="button" href="/showcase#img-0">Bekijk Slides</a>
 </div> 
